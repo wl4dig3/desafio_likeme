@@ -6,11 +6,10 @@ dotenv.config();
 const { Pool } = pg;
 
 const config = {
-    user: 'postgres',
-    host: 'localhost',
-    database: 'desafio_likeme',
-    password: 'Dji3pro',
-    port: 5432,
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
     allowExitOnIdle: true
 };
 
