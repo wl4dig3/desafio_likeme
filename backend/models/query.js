@@ -18,3 +18,20 @@ export const getPosts = async () => {
     } catch (error) { console.log('error en archivo query.js', error);}
 };
 
+export const deletePost = async (id) => {
+    const sql = "DELETE FROM post WHERE id = $1";
+    const values = [id];
+    try {
+        const results = await pool.query(sql, values);
+        return results.rows;
+    } catch (error) { console.log('error en archivo query.js', error);} 
+}
+
+export const updatePost = async (id, likes) => {
+    const sql = "UPDATE post SET likes = $1 WHERE id = $2";
+    const values = [likes, id];
+    try {
+        const results = await pool.query(sql, values);
+        return results.rows;
+    } catch (error) { console.log('error en archivo query.js', error);} 
+}
