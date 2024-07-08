@@ -1,21 +1,16 @@
 import express from "express";
-import { addPost, getPosts } from "../models/query.js";
+import { controllers } from "../controllers/controller.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.send("hola desde router");
-});
+router.get("/", controllers.home);
 
-router.post("/post", async (req, res) => {
-    const { titulo, img, descripcion, likes } = req.body;
-    await addPost(titulo, img, descripcion, likes);
-    res.send("Hola se ha agregado un nuevo like");
-});  
+router.post("/post", controllers.addPost);  
 
-router.get("/post", async (req, res) => {
-    const response = await getPosts(); 
-    res.json({data: response});
- });
+router.get("/posts", controllers.getPosts);
+
+ router.put("/post/post/:id", controllers.updatePost);
+
+ router.delete("/post/:id", controllers.deletePost);
 
 export default router;

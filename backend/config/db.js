@@ -7,8 +7,8 @@ dotenv.config();
 
 // const { DB_USER, DB_HOST, DB_DATABASE, DB_PASSWORD, DB_PORT } = process.env;
 
-const usuario_db = process.env.DB_USER;
-console.log('nuevo debugeo', usuario_db);
+// const usuario_db = process.env.DB_USER;
+// console.log('nuevo debugeo', usuario_db);
 
 const config = {
     user: 'postgres',

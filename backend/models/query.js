@@ -1,6 +1,6 @@
-import pool from "../config/db.js";
+import {pool} from "../config/db.js";
 
-export const addPost = async (titulo, img, descripcion, likes) => {
+const addPost = async (titulo, img, descripcion, likes) => {
     const sql = "INSERT INTO post (titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4) RETURNING *";
     const values = [titulo, img, descripcion, likes];
 
@@ -10,28 +10,37 @@ export const addPost = async (titulo, img, descripcion, likes) => {
     } catch (error) { console.log('error en archivo query.js', error);}
 };
 
-export const getPosts = async () => {
+const getPosts = async () => {
     const sql = "SELECT * FROM post";
     try {
         const results = await pool.query(sql);
         return results.rows;
-    } catch (error) { console.log('error en archivo query.js', error);}
+    } catch (error) { console.log('error en archivo query.js', error.code, error.message);}
 };
 
-export const deletePost = async (id) => {
+const deletePost = async (id) => {
     const sql = "DELETE FROM post WHERE id = $1";
     const values = [id];
     try {
         const results = await pool.query(sql, values);
         return results.rows;
-    } catch (error) { console.log('error en archivo query.js', error);} 
+    } catch (error) { console.log('error en archivo query.js', error.message);} 
 }
 
-export const updatePost = async (id, likes) => {
-    const sql = "UPDATE post SET likes = $1 WHERE id = $2";
-    const values = [likes, id];
+const updatePost = async (titulo, img, descripcion, likes, id) => {
     try {
+        const sql = "UPDATE post SET titulo = $1, img = $2, descripcion = $3, likes = $4 WHERE id = $5 RETURNING *";
+        const values = [titulo, img, descripcion, likes, id];
         const results = await pool.query(sql, values);
-        return results.rows;
-    } catch (error) { console.log('error en archivo query.js', error);} 
+        if (results.rowCount > 0) {
+            return results.rows;
+        }
+    } catch (error) { console.log('error en archivo query.js', error.code, error.message);} 
 }
+
+export const models = {
+    addPost,
+    getPosts,
+    deletePost,
+    updatePost
+};
